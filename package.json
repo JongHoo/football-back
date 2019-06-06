@@ -1,0 +1,15 @@
+{
+  "name": "jay-football-backend",
+  "version": "1.0.0",
+  "description": "football backend project with aws lambda",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jay Hwang",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "mongoose": "^5.5.9"
+  }
+}
