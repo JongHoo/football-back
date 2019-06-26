@@ -50,6 +50,20 @@ functions:
           path: leagues
           method: get
 
+  createTeamsByApi:
+    handler: src/teams.createTeamsByApi
+    events:
+      - http:
+          path: teams
+          method: post
+
+  readTeams:
+    handler: src/teams.readTeams
+    events:
+      - http:
+          path: teams
+          method: get
+
 #  updateStandings:
 #    handler: src/standings.updateStandings
 #    events:
