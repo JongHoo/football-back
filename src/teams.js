@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Team = require('./models/Team')
+const axios = require('axios')
 
 let connection = null
 
@@ -29,29 +30,29 @@ const createResponse = (status, body) => ({
 
 exports.createTeamsByApi = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
-  const teamListByApi = JSON.parse(event.body)
-  console.log('param list : ', teamListByApi)
-  connect().then(
-    () => {
-      // teamListByApi.forEach(item => {
-      //   console.log(item)
-      //   let team = new Team(item)
-      //   return team.save((err) => {
-      //     if (err) {
-      //       console.log('error!! : ', err)
-      //     }
-      //   })
-      // })
-      const team = new Team(teamListByApi[0])
-      return team.save()
-    }
-  )
-  .then(team => {
-    cb(null, createResponse(200, team))
-  })
-  .catch(
-    e => cb(e)
-  )
+  let teamListByApi = [] //JSON.parse(event.body)
+  const { league, season } = JSON.parse(event.body)
+  axios.get(`http://soccer.sportsopendata.net/v1/leagues/${league}/seasons/${season}/teams`)
+    .then((res) => {
+      console.log('response teams : ', res.data.data.teams)
+      teamListByApi = res.data.data.teams
+      return connect()
+    })
+    .then(() => {
+      let teamList = []
+      teamListByApi.forEach(item => {
+        let team = new Team(item)
+        teamList.push(team)
+      })
+      return Team.create(teamList)
+    })
+    .then(data => {
+      cb(null, createResponse(200, data))
+    })
+    .catch((err) => {
+      console.log('error! : ', err)
+      cb(err)
+    })
 }
 
 exports.readTeams = (event, ctx, cb) => {
