@@ -36,61 +36,27 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  createLeague:
-    handler: src/leagues.createLeague
-    events:
-      - http:
-          path: leagues
-          method: post
 
   readLeagues:
-    handler: src/leagues.readLeagues
+    handler: src/leagues/readLeagues.handle
     events:
       - http:
           path: leagues
           method: get
 
   createTeamsByApi:
-    handler: src/teams.createTeamsByApi
+    handler: src/teams/createTeamsByApi.handle
     events:
       - http:
-          path: teams
+          path: teams/{league}/{season}
           method: post
 
   readTeams:
-    handler: src/teams.readTeams
+    handler: src/teams/readTeams.handle
     events:
       - http:
-          path: teams
+          path: teams/{league}/{season}
           method: get
-
-#  updateStandings:
-#    handler: src/standings.updateStandings
-#    events:
-#      - http:
-#          path: standings
-#          method: patch
-
-#  readLeague:
-#    handler: src/league.readLeague
-#    events:
-#      - http:
-#          path: leagues/{id}
-#          method: get
-#
-#  updateLeague:
-#    handler: src/league.updateLeague
-#    events:
-#      - http:
-#          path: leagues/{id}
-#          method: patch
-#
-#  deleteLeague:
-#    handler: src/league.deleteLeague
-#    events:
-#      - http:
-#          path: leagues/{id}
-#          method: delete
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
