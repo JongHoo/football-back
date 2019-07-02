@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4a6a2152-9539-42f4-bc66-a29993ad2699" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/common/commonUtil.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/leagues/readLeagues.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/teams/readTeams.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverless.yml" beforeDir="false" afterPath="$PROJECT_DIR$/serverless.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/leagues.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Team.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Team.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/teams.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/teams/createTeamsByApi.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -28,7 +21,7 @@
             <entry file="file://$PROJECT_DIR$/serverless.yml">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="750">
-                  <caret line="50" column="39" lean-forward="true" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
+                  <caret line="50" column="39" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
                 </state>
               </provider>
             </entry>
@@ -36,8 +29,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/teams/createTeamsByApi.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="75">
-                  <caret line="5" column="44" lean-forward="true" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
+                <state relative-caret-position="300">
+                  <caret line="20" column="27" lean-forward="true" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="27" />
                 </state>
               </provider>
             </entry>
@@ -72,12 +65,12 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/teams/readTeams.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="75">
-                  <caret line="5" column="49" lean-forward="true" selection-start-line="5" selection-start-column="29" selection-end-line="5" selection-end-column="49" />
+                  <caret line="5" column="49" selection-start-line="5" selection-start-column="29" selection-end-line="5" selection-end-column="49" />
                 </state>
               </provider>
             </entry>
@@ -133,7 +126,7 @@
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
     <option name="width" value="1440" />
-    <option name="height" value="798" />
+    <option name="height" value="801" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -221,7 +214,8 @@
       <workItem from="1561293280483" duration="4288000" />
       <workItem from="1561553239799" duration="3684000" />
       <workItem from="1561717614354" duration="6196000" />
-      <workItem from="1561790702652" duration="4977000" />
+      <workItem from="1561790702652" duration="5844000" />
+      <workItem from="1562070791915" duration="263000" />
     </task>
     <task id="LOCAL-00001" summary="team 개발중...">
       <created>1561557227574</created>
@@ -237,14 +231,29 @@
       <option name="project" value="LOCAL" />
       <updated>1561726890565</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="create team, read team, read league 람다 대폭 수정!!">
+      <created>1561798039190</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1561798039190</updated>
+    </task>
+    <task id="LOCAL-00004" summary="workspace.xml">
+      <created>1561798099537</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1561798099537</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37181000" />
+    <option name="totallyTimeSpent" value="38311000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="798" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21634954" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -271,7 +280,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="team 개발중..." />
     <MESSAGE value="api 로 가져온 팀 저장 테스트 성공" />
-    <option name="LAST_COMMIT_MESSAGE" value="api 로 가져온 팀 저장 테스트 성공" />
+    <MESSAGE value="create team, read team, read league 람다 대폭 수정!!" />
+    <MESSAGE value="workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="workspace.xml" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/handler.js" />
@@ -303,13 +314,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/standings.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="326">
@@ -317,18 +321,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/common.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common.js" />
     <entry file="file://$PROJECT_DIR$/node_modules/mongoose/index.js">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/Team.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="14" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="14" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/common/commonUtil.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -337,17 +332,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/leagues/leagues.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="46" selection-start-line="46" selection-end-line="53" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/leagues/leagues.js" />
     <entry file="file://$PROJECT_DIR$/serverless.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="750">
-          <caret line="50" column="39" lean-forward="true" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
+          <caret line="50" column="39" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -358,17 +347,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Team.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="14" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/teams/readTeams.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
-          <caret line="5" column="49" lean-forward="true" selection-start-line="5" selection-start-column="29" selection-end-line="5" selection-end-column="49" />
+          <caret line="5" column="49" selection-start-line="5" selection-start-column="29" selection-end-line="5" selection-end-column="49" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/teams/createTeamsByApi.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="44" lean-forward="true" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
+        <state relative-caret-position="300">
+          <caret line="20" column="27" lean-forward="true" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="27" />
         </state>
       </provider>
     </entry>
