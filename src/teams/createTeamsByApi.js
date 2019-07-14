@@ -10,7 +10,6 @@ exports.handle = (event, ctx, cb) => {
   const { league, season } = event.pathParameters
   axios.get(`http://soccer.sportsopendata.net/v1/leagues/${league}/seasons/${season}/teams`)
     .then((res) => {
-      console.log('response teams : ', res.data.data.teams)
       if (_.isEmpty(res.data.data.teams)) {
         throw new Error('no teams')
       }
