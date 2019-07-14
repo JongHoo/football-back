@@ -10,6 +10,9 @@ exports.handle = (event, ctx, cb) => {
         .select('identifier name short_name nation federation')
     })
     .then((leagueList) => {
+      if (leagueList.length < 1) {
+        throw new Error('No Leagues')
+      }
       cb(null, commonUtil.createResponse(200, leagueList))
     })
     .catch((err) => {
