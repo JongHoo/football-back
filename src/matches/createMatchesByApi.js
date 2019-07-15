@@ -5,35 +5,47 @@ const _ = require('lodash')
 
 exports.handle = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
-  let matchListByApi = []
   let matchList = []
-  const { league, season, round } = event.pathParameters
-  axios.get(`http://soccer.sportsopendata.net/v1/leagues/${league}/seasons/${season}/rounds/round-${round}`)
-    .then((res) => {
-      if (_.isEmpty(res.data.data.rounds[0].matches)) {
-        throw new Error('no matches')
+  const { league, season } = event.pathParameters
+
+  let allRoundApi = []
+
+  for (let i = 1; i <= 38; i++) {
+    allRoundApi.push(getMatchesByRound(league, season, i))
+  }
+
+  Promise.all(allRoundApi)
+    .then(resultArr => {
+      for (let i = 0; i < 38; i++) {
+        if (_.isEmpty(resultArr[i].data.data.rounds[0].matches)) {
+          throw new Error(`no match data`)
+        }
+        (resultArr[i].data.data.rounds[0].matches).forEach(item => {
+          item.league = league
+          item.season = season
+          item.round = i+1
+          let match = new Match(item)
+          matchList.push(match)
+        })
       }
-      matchListByApi = res.data.data.rounds[0].matches
       return commonUtil.connect()
     })
     .then(() => {
-      matchListByApi.forEach(item => {
-        item.league = league
-        item.season = season
-        item.round = round
-        let match = new Match(item)
-        matchList.push(match)
-      })
-      return Match.deleteMany({league: league, season: season, round: round})
+      return Match.deleteMany({league: league, season: season})
     })
     .then(() => {
       return Match.create(matchList)
     })
     .then(data => {
-      cb(null, commonUtil.createResponse(200, data))
+      console.log('Done! all match data inserted')
+      cb(null, commonUtil.createResponse(200, 'all match data inserted'))
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('error! : ', err)
-      cb(err)
     })
 }
+
+getMatchesByRound = (league, season, round) => {
+  return axios.get(`http://soccer.sportsopendata.net/v1/leagues/${league}/seasons/${season}/rounds/round-${round}`)
+}
+

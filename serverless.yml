@@ -62,8 +62,9 @@ functions:
     handler: src/matches/createMatchesByApi.handle
     events:
       - http:
-          path: matches/{league}/{season}/{round}
+          path: matches/{league}/{season}
           method: post
+    timeout: 30
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
