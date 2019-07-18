@@ -18,8 +18,9 @@ exports.handle = (event, ctx, cb) => {
     })
     .then(() => {
       teamListByApi.forEach(item => {
-        item.league = league
+        item.league_id = league
         item.season = season
+        item.team_id = item.team_slug
         let team = new Team(item)
         teamList.push(team)
       })

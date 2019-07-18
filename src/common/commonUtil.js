@@ -11,7 +11,7 @@ const connect = () => {
       return connection
     },
     err => {
-      console.log('Atlas Connection Failed : ', err)
+      throw new Error('Atlas Connection Failed : ' + err)
     }
   )
 }

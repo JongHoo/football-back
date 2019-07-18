@@ -7,7 +7,7 @@ exports.handle = (event, ctx, cb) => {
     .then(() => {
       return League.find()
         .sort('name')
-        .select('identifier name short_name nation federation')
+        .select('league_id name nation uefa_rank')
     })
     .then((leagueList) => {
       if (leagueList.length < 1) {
