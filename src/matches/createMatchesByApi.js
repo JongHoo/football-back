@@ -1,6 +1,6 @@
 const commonUtil = require('../common/commonUtil')
 const Match = require('../models/Match')
-const axios = require('axios')
+const extApi = require('../common/extApi')
 const _ = require('lodash')
 
 exports.handle = (event, ctx, cb) => {
@@ -11,7 +11,7 @@ exports.handle = (event, ctx, cb) => {
   let allRoundApi = []
 
   for (let i = 1; i <= 38; i++) {
-    allRoundApi.push(getMatchesByRound(league, season, i))
+    allRoundApi.push(extApi.getMatches(league, season, i))
   }
 
   Promise.all(allRoundApi)
@@ -43,8 +43,4 @@ exports.handle = (event, ctx, cb) => {
     .catch(err => {
       console.log('error! : ', err)
     })
-}
-
-getMatchesByRound = (league, season, round) => {
-  return axios.get(`http://soccer.sportsopendata.net/v1/leagues/${league}/seasons/${season}/rounds/round-${round}`)
 }

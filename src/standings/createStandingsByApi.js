@@ -1,6 +1,6 @@
 const commonUtil = require('../common/commonUtil')
 const Standing = require('../models/Standing')
-const axios = require('axios')
+const extApi = require('../common/extApi')
 const _ = require('lodash')
 
 exports.handle = (event, ctx, cb) => {
@@ -9,7 +9,7 @@ exports.handle = (event, ctx, cb) => {
   let standingList = []
   const { league, season } = event.pathParameters
 
-  axios.get(`http://soccer.sportsopendata.net/v1/leagues/${league}/seasons/${season}/standings`)
+  extApi.getStandings(league, season)
     .then((res) => {
       if (_.isEmpty(res.data.data.standings)) {
         throw new Error('no standing info')

@@ -1,6 +1,6 @@
 const commonUtil = require('../common/commonUtil')
 const Team = require('../models/Team')
-const axios = require('axios')
+const extApi = require('../common/extApi')
 const _ = require('lodash')
 
 exports.handle = (event, ctx, cb) => {
@@ -8,7 +8,7 @@ exports.handle = (event, ctx, cb) => {
   let teamListByApi = [] //JSON.parse(event.body)
   let teamList = []
   const { league, season } = event.pathParameters
-  axios.get(`http://soccer.sportsopendata.net/v1/leagues/${league}/seasons/${season}/teams`)
+  extApi.getTeams(league, season)
     .then((res) => {
       if (_.isEmpty(res.data.data.teams)) {
         throw new Error('no teams')
@@ -24,7 +24,7 @@ exports.handle = (event, ctx, cb) => {
         let team = new Team(item)
         teamList.push(team)
       })
-      return Team.deleteMany({league: league, season: season})
+      return Team.deleteMany({league_id: league, season: season})
     })
     .then(() => {
       return Team.create(teamList)
