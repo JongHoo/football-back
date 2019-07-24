@@ -1,11 +1,10 @@
 const mongoose = require('mongoose')
 
 const leagueSchema = new mongoose.Schema({
-  identifier: String,
+  league_id: String,
   name: String,
   nation: String,
-  federation: String,
-  cup: Boolean
+  uefa_rank: Number
 })
 
 global.League = global.League || mongoose.model('League', leagueSchema)

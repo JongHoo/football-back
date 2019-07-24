@@ -1,14 +1,10 @@
 const mongoose = require('mongoose')
 
 const teamSchema = new mongoose.Schema({
-  identifier: String,
-  league: String,
+  league_id: String,
   season: String,
-  team_slug: String,
+  team_id: String,
   name: String,
-  flag: String,
-  notes: String,
-  team_foundation: String,
   team_website: String
 })
 

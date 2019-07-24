@@ -6,6 +6,62 @@ provider:
   stage: dev
   region: ap-northeast-2
 
+functions:
+
+  # League
+  readLeagues:
+    handler: src/leagues/readLeagues.handle
+    events:
+      - http:
+          path: leagues
+          method: get
+
+  # Team
+  createTeamsByApi:
+    handler: src/teams/createTeamsByApi.handle
+    events:
+      - http:
+          path: teams/{league}/{season}
+          method: post
+
+  readTeams:
+    handler: src/teams/readTeams.handle
+    events:
+      - http:
+          path: teams/{league}/{season}
+          method: get
+
+  # Match
+  createMatchesByApi:
+    handler: src/matches/createMatchesByApi.handle
+    events:
+      - http:
+          path: matches/{league}/{season}
+          method: post
+    timeout: 30
+
+  readMatches:
+    handler: src/matches/readMatches.handle
+    events:
+      - http:
+          path: matches/{league}/{season}/{team}
+          method: get
+
+  # Standing
+  createStandingsByApi:
+    handler: src/standings/createStandingsByApi.handle
+    events:
+      - http:
+          path: standings/{league}/{season}
+          method: post
+
+  readStandings:
+    handler: src/standings/readStandings.handle
+    events:
+      - http:
+          path: standings/{league}/{season}
+          method: get
+
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
 #    - Effect: "Allow"
@@ -34,36 +90,6 @@ provider:
 #  exclude:
 #    - exclude-me.js
 #    - exclude-me-dir/**
-
-functions:
-
-  readLeagues:
-    handler: src/leagues/readLeagues.handle
-    events:
-      - http:
-          path: leagues
-          method: get
-
-  createTeamsByApi:
-    handler: src/teams/createTeamsByApi.handle
-    events:
-      - http:
-          path: teams/{league}/{season}
-          method: post
-
-  readTeams:
-    handler: src/teams/readTeams.handle
-    events:
-      - http:
-          path: teams/{league}/{season}
-          method: get
-
-  createMatchesByApi:
-    handler: src/matches/createMatchesByApi.handle
-    events:
-      - http:
-          path: matches/{league}/{season}/{round}
-          method: post
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events

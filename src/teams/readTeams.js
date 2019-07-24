@@ -7,10 +7,10 @@ exports.handle = (event, ctx, cb) => {
   commonUtil.connect()
     .then(() => {
       return Team.find()
-        .where('league').equals(league)
+        .where('league_id').equals(league)
         .where('season').equals(season)
         .sort('name')
-        .select('identifier name team_slug team_foundation team_website')
+        .select('league_id season team_id name team_website')
     })
     .then((teamList) => {
       cb(null, commonUtil.createResponse(200, teamList))
