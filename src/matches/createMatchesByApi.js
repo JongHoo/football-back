@@ -48,4 +48,3 @@ exports.handle = (event, ctx, cb) => {
 getMatchesByRound = (league, season, round) => {
   return axios.get(`http://soccer.sportsopendata.net/v1/leagues/${league}/seasons/${season}/rounds/round-${round}`)
 }
-
