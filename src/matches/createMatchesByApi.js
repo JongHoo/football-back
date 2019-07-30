@@ -7,16 +7,18 @@ exports.handle = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
   let matchList = []
   const { league, season } = event.pathParameters
-
+  const leagueMatch38 = ['premier-league', 'liga', 'ligue-1', 'serie-a']
+  const leagueMatch34 = ['bundesliga', 'eredivisie']
   let allRoundApi = []
+  const totalRound = leagueMatch38.includes(league) ? 38 : 34
 
-  for (let i = 1; i <= 38; i++) {
+  for (let i = 1; i <= totalRound; i++) {
     allRoundApi.push(extApi.getMatches(league, season, i))
   }
 
   Promise.all(allRoundApi)
     .then(resultArr => {
-      for (let i = 0; i < 38; i++) {
+      for (let i = 0; i < totalRound; i++) {
         if (_.isEmpty(resultArr[i].data.data.rounds[0].matches)) {
           throw new Error(`no match data`)
         }
@@ -42,5 +44,6 @@ exports.handle = (event, ctx, cb) => {
     })
     .catch(err => {
       console.log('error! : ', err)
+      cb(null, commonUtil.createResponse(500, err))
     })
 }

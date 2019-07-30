@@ -4,12 +4,13 @@ const Match = require('../models/Match')
 exports.handle = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
   const { league, season, team } = event.pathParameters
+  const teamName = team.replace(/%20/gi, ' ')
   commonUtil.connect()
     .then(() => {
       return Match.find()
         .where('league').equals(league)
         .where('season').equals(season)
-        .or([{home_team: team}, {away_team: team}])
+        .or([{home_team: teamName}, {away_team: teamName}])
         .sort('round')
         .select('league season round date_match home_team away_team match_result')
     })

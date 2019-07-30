@@ -34,6 +34,6 @@ exports.handle = (event, ctx, cb) => {
     })
     .catch((err) => {
       console.log('error! : ', err)
-      cb(err)
+      cb(null, commonUtil.createResponse(500, err))
     })
 }
