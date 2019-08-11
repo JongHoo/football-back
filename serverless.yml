@@ -8,6 +8,14 @@ provider:
 
 functions:
 
+  # Login
+  doLogin:
+    handler: src/login/login.handle
+    events:
+      - http:
+          path: login
+          method: post
+
   # League
   readLeagues:
     handler: src/leagues/readLeagues.handle
