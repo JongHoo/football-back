@@ -7,7 +7,11 @@ exports.handle = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
   let teamListByApi = [] //JSON.parse(event.body)
   let teamList = []
-  const { league, season } = event.pathParameters
+  console.log('event : ', event)
+  const { league, season } = event
+
+  console.log('league : ', league)
+  console.log('season : ', season)
   extApi.getTeams(league, season)
     .then((res) => {
       if (_.isEmpty(res.data.data.teams)) {
@@ -30,6 +34,7 @@ exports.handle = (event, ctx, cb) => {
       return Team.create(teamList)
     })
     .then(data => {
+      console.log('Success! Data : ', data)
       cb(null, commonUtil.createResponse(200, data))
     })
     .catch((err) => {

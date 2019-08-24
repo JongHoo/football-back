@@ -6,7 +6,11 @@ const _ = require('lodash')
 exports.handle = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
   let matchList = []
-  const { league, season } = event.pathParameters
+  console.log('event : ', event)
+  const { league, season } = event
+
+  console.log('league : ', league)
+  console.log('season : ', season)
   const leagueMatch38 = ['premier-league', 'liga', 'ligue-1', 'serie-a']
   const leagueMatch34 = ['bundesliga', 'eredivisie']
   let allRoundApi = []

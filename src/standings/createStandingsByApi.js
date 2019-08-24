@@ -2,12 +2,17 @@ const commonUtil = require('../common/commonUtil')
 const Standing = require('../models/Standing')
 const extApi = require('../common/extApi')
 const _ = require('lodash')
+const qs = require('querystring')
 
 exports.handle = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
   let standingListByApi = []
   let standingList = []
-  const { league, season } = event.pathParameters
+  console.log('event : ', event)
+  const { league, season } = event
+
+  console.log('league : ', league)
+  console.log('season : ', season)
 
   extApi.getStandings(league, season)
     .then((res) => {
@@ -35,6 +40,7 @@ exports.handle = (event, ctx, cb) => {
       return Standing.create(standingList)
     })
     .then(data => {
+      console.log('Success! Data : ', data)
       cb(null, commonUtil.createResponse(200, data))
     })
     .catch((err) => {
