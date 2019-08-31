@@ -1,4 +1,4 @@
-service: jay-football-backend # NOTE: update this with your service name
+service: jay-football-x1 # NOTE: update this with your service name
 
 provider:
   name: aws
@@ -9,7 +9,7 @@ provider:
 functions:
 
   # Login
-  doLogin:
+  login:
     handler: src/login/login.handle
     events:
       - http:
@@ -17,7 +17,7 @@ functions:
           method: post
 
   # League
-  readLeagues:
+  read-leagues:
     handler: src/leagues/readLeagues.handle
     events:
       - http:
@@ -25,14 +25,14 @@ functions:
           method: get
 
   # Team
-  createTeamsByApi:
+  create-teams-by-api:
     handler: src/teams/createTeamsByApi.handle
     events:
       - http:
           path: teams
           method: post
 
-  readTeams:
+  read-teams:
     handler: src/teams/readTeams.handle
     events:
       - http:
@@ -40,7 +40,7 @@ functions:
           method: get
 
   # Match
-  createMatchesByApi:
+  create-matches-by-api:
     handler: src/matches/createMatchesByApi.handle
     events:
       - http:
@@ -48,7 +48,7 @@ functions:
           method: post
     timeout: 30
 
-  readMatches:
+  read-matches:
     handler: src/matches/readMatches.handle
     events:
       - http:
@@ -56,14 +56,14 @@ functions:
           method: get
 
   # Standing
-  createStandingsByApi:
+  create-standings-by-api:
     handler: src/standings/createStandingsByApi.handle
     events:
       - http:
           path: standings
           method: post
 
-  readStandings:
+  read-standings:
     handler: src/standings/readStandings.handle
     events:
       - http:
