@@ -70,6 +70,13 @@ functions:
           path: standings/{league}/{season}
           method: get
 
+  read-top-standings:
+    handler: src/standings/readTopStandings.handle
+    events:
+      - http:
+          path: standings/top/{season}
+          method: get
+
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
 #    - Effect: "Allow"
