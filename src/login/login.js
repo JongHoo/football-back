@@ -1,5 +1,5 @@
 const commonUtil = require('../common/commonUtil')
-const User = require('../models/User')
+const Query = require('./query')
 const qs = require('querystring')
 
 exports.handle = (event, ctx, cb) => {
@@ -7,10 +7,7 @@ exports.handle = (event, ctx, cb) => {
   const { loginId, loginPw } = qs.parse(event.body)
   commonUtil.connect()
     .then(() => {
-      return User.findOne()
-        .where('login_id').equals(loginId)
-        .where('login_pw').equals(loginPw)
-        .select('login_id user_nm grp_id')
+      return Query.findUser(loginId, loginPw)
     })
     .then((user) => {
       if (!user) {

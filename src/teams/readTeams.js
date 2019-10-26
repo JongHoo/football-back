@@ -1,16 +1,12 @@
 const commonUtil = require('../common/commonUtil')
-const Team = require('../models/Team')
+const Query = require('./query')
 
 exports.handle = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
   const { league, season } = event.pathParameters
   commonUtil.connect()
     .then(() => {
-      return Team.find()
-        .where('league_id').equals(league)
-        .where('season').equals(season)
-        .sort('name')
-        .select('league_id season team_id name team_website')
+      return Query.readTeams(league, season)
     })
     .then((teamList) => {
       cb(null, commonUtil.createResponse(200, teamList))

@@ -1,5 +1,5 @@
 const commonUtil = require('../common/commonUtil')
-const Team = require('../models/Team')
+const Query = require('./query')
 const extApi = require('../common/extApi')
 const _ = require('lodash')
 
@@ -10,8 +10,6 @@ exports.handle = (event, ctx, cb) => {
   console.log('event : ', event)
   const { league, season } = event
 
-  console.log('league : ', league)
-  console.log('season : ', season)
   extApi.getTeams(league, season)
     .then((res) => {
       if (_.isEmpty(res.data.data.teams)) {
@@ -28,10 +26,10 @@ exports.handle = (event, ctx, cb) => {
         let team = new Team(item)
         teamList.push(team)
       })
-      return Team.deleteMany({league_id: league, season: season})
+      return Query.deleteTeams(league, season)
     })
     .then(() => {
-      return Team.create(teamList)
+      return Query.insertTeams(teamList)
     })
     .then(data => {
       console.log('Success! Data : ', data)
