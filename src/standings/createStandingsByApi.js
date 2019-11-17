@@ -3,6 +3,7 @@ const Standing = require('../models/Standing')
 const extApi = require('../common/extApi')
 const _ = require('lodash')
 const qs = require('querystring')
+const Query = require('./query')
 
 exports.handle = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
@@ -34,10 +35,10 @@ exports.handle = (event, ctx, cb) => {
         let standing = new Standing(tempStanding)
         standingList.push(standing)
       })
-      return Standing.deleteMany({league_id: league, season: season})
+      return Query.deleteStandings(league, season)
     })
     .then(() => {
-      return Standing.create(standingList)
+      return Query.createStandings(standingList)
     })
     .then(data => {
       console.log('Success! Data : ', data)

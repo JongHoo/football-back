@@ -2,15 +2,14 @@ const commonUtil = require('../common/commonUtil')
 const Match = require('../models/Match')
 const extApi = require('../common/extApi')
 const _ = require('lodash')
+const Query = require('./query')
 
-exports.handle = (event, ctx, cb) => {
+const handle = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
   let matchList = []
   console.log('event : ', event)
-  const { league, season } = event
 
-  console.log('league : ', league)
-  console.log('season : ', season)
+  const { league, season } = event
   const leagueMatch38 = ['premier-league', 'liga', 'ligue-1', 'serie-a']
   const leagueMatch34 = ['bundesliga', 'eredivisie']
   let allRoundApi = []
@@ -37,10 +36,10 @@ exports.handle = (event, ctx, cb) => {
       return commonUtil.connect()
     })
     .then(() => {
-      return Match.deleteMany({league: league, season: season})
+      return Query.deleteMatches(league, season)
     })
     .then(() => {
-      return Match.create(matchList)
+      return Query.createMatches(matchList)
     })
     .then(data => {
       console.log('Done! all match data inserted')
@@ -50,4 +49,9 @@ exports.handle = (event, ctx, cb) => {
       console.log('error! : ', err)
       cb(null, commonUtil.createResponse(500, err))
     })
+}
+
+module.exports = {
+  handle: handle,
+  handler: handle
 }

@@ -1,5 +1,6 @@
-const LambdaTester = require('lambda-tester')
+const lambdaTester = require('../util/lamba-tester')
 const subject = require('../../src/matches/createMatchesByApi')
+const Query = require('../../src/matches/query')
 const commonUtil = require('../../src/common/commonUtil')
 const extApi = require('../../src/common/extApi')
 
@@ -33,18 +34,31 @@ afterEach(() => {
 })
 
 describe('create matches by api test', () => {
+  let event = {}
 
   it('get matches and save to mongodb', (done) => {
-    Match.deleteMany = jest.fn().mockResolvedValue({})
-    Match.create = jest.fn().mockResolvedValue({})
+    Query.deleteMatches = jest.fn().mockResolvedValue({})
+    Query.createMatches = jest.fn().mockResolvedValue({})
 
-    return LambdaTester(subject.handle)
-      .event({
-        league: 'test_league',
-        season: 'test_season'
-        })
-      .expectResult(result => {
-        expect(JSON.parse(result.body)).toEqual('all match data inserted')
+    lambdaTester(subject)
+      .with(event)
+      .soThat((error, result) => {
+        expect(error).toBeNull()
+        expect(JSON.parse(result.statusCode)).toEqual(200)
+        expect(JSON.parse(result.body)).toEqual(`all match data inserted`)
+        done()
+      })
+  })
+
+  it('error when delete matches', (done) => {
+    Query.deleteMatches = jest.fn().mockRejectedValue('ERROR!')
+
+    lambdaTester(subject)
+      .with(event)
+      .soThat((error, result) => {
+        expect(error).toBeNull()
+        expect(JSON.parse(result.statusCode)).toEqual(500)
+        expect(JSON.parse(result.body)).toEqual(`ERROR!`)
         done()
       })
   })
