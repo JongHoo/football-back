@@ -3,7 +3,7 @@ const Query = require('./query')
 const extApi = require('../common/extApi')
 const _ = require('lodash')
 
-exports.handle = (event, ctx, cb) => {
+const handle = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
   let teamListByApi = [] //JSON.parse(event.body)
   let teamList = []
@@ -13,7 +13,7 @@ exports.handle = (event, ctx, cb) => {
   extApi.getTeams(league, season)
     .then((res) => {
       if (_.isEmpty(res.data.data.teams)) {
-        throw new Error('no teams')
+        return Promise.reject('no teams')
       }
       teamListByApi = res.data.data.teams
       return commonUtil.connect()
@@ -39,4 +39,9 @@ exports.handle = (event, ctx, cb) => {
       console.log('error! : ', err)
       cb(null, commonUtil.createResponse(500, err))
     })
+}
+
+module.exports = {
+  handle: handle,
+  handler: handle
 }

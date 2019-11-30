@@ -1,7 +1,7 @@
 const commonUtil = require('../common/commonUtil')
 const Query = require('./query')
 
-exports.handle = (event, ctx, cb) => {
+const handle = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
   const { league, season, team } = event.pathParameters
   const teamName = team.replace(/%20/gi, ' ')
@@ -16,4 +16,9 @@ exports.handle = (event, ctx, cb) => {
       console.log('read team error : ', err)
       cb(err)
     })
+}
+
+module.exports = {
+  handle: handle,
+  handler: handle
 }

@@ -23,7 +23,7 @@ const handle = (event, ctx, cb) => {
     .then(resultArr => {
       for (let i = 0; i < totalRound; i++) {
         if (_.isEmpty(resultArr[i].data.data.rounds[0].matches)) {
-          throw new Error(`no match data`)
+          return Promise.reject(`no match data`)
         }
         (resultArr[i].data.data.rounds[0].matches).forEach(item => {
           item.league = league

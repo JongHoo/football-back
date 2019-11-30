@@ -10,7 +10,7 @@ const handle = (event, ctx, cb) => {
     })
     .then((leagueList) => {
       if (leagueList.length < 1) {
-        throw new Error('No Leagues')
+        return Promise.reject('No Leagues')
       }
       cb(null, commonUtil.createResponse(200, leagueList))
     })
