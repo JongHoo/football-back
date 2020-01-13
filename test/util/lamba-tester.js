@@ -1,24 +1,24 @@
-const ApiContext = {
-  functionVersion: 'offline.functionVersion',
-  invokedFunctionArn: 'UNIT_TEST',
+const defaultContext = {
+  functionVersion: 'TEST_VERSION',
+  invokedFunctionArn: 'TEST_LAMBDA',
   fail: jest.fn().mockReturnValue(data => {
     throw new Error('session error')
   })
 }
 
-const test = (lambdaModule) => {
-  if (!lambdaModule.handler) {
+const testUtil = (labmda) => {
+  if (!labmda.handler) {
     throw 'No handler within parameter.'
   }
 
-  const handler = lambdaModule.handler
-  let _request = {}
-  let _context = {}
+  const handler = labmda.handler
+  let request = {}
+  let context = {}
 
   const tester = {
-    with: (request, context = ApiContext) => {
-      _request = request
-      _context = context
+    with: (req, ctx = defaultContext) => {
+      request = req
+      context = ctx
       return tester
     },
     soThat: (responseCallBack) => {
@@ -29,10 +29,10 @@ const test = (lambdaModule) => {
           fail(error)
         }
       }
-      handler(_request, _context, callback)
+      handler(request, context, callback)
     }
   }
   return tester
 }
 
-module.exports = test
+module.exports = testUtil
