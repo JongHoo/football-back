@@ -1,17 +1,13 @@
 const commonUtil = require('../common/commonUtil')
-const Match = require('../models/Match')
+const Query = require('./query')
 
-exports.handle = (event, ctx, cb) => {
+const handle = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
   const { league, season, team } = event.pathParameters
+  const teamName = team.replace(/%20/gi, ' ')
   commonUtil.connect()
     .then(() => {
-      return Match.find()
-        .where('league').equals(league)
-        .where('season').equals(season)
-        .or([{home_team: team}, {away_team: team}])
-        .sort('round')
-        .select('league season round date_match home_team away_team match_result')
+      return Query.readMatches(league, season, teamName)
     })
     .then((matchList) => {
       cb(null, commonUtil.createResponse(200, matchList))
@@ -20,4 +16,9 @@ exports.handle = (event, ctx, cb) => {
       console.log('read team error : ', err)
       cb(err)
     })
+}
+
+module.exports = {
+  handle: handle,
+  handler: handle
 }

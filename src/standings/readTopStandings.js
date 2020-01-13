@@ -1,21 +1,18 @@
 const commonUtil = require('../common/commonUtil')
-const League = require('../models/League')
 const Query = require('./query')
 
 const handle = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
+  const { season } = event.pathParameters
   commonUtil.connect()
     .then(() => {
-      return Query.readLeagues()
+      return Query.readTopStandings(season)
     })
-    .then((leagueList) => {
-      if (leagueList.length < 1) {
-        return Promise.reject('No Leagues')
-      }
-      cb(null, commonUtil.createResponse(200, leagueList))
+    .then((standingList) => {
+      cb(null, commonUtil.createResponse(200, standingList))
     })
     .catch((err) => {
-      console.log('read league err : ', err)
+      console.log('read standing error : ', err)
       cb(null, commonUtil.createResponse(500, err))
     })
 }

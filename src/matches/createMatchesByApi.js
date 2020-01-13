@@ -1,24 +1,29 @@
 const commonUtil = require('../common/commonUtil')
 const Match = require('../models/Match')
-const axios = require('axios')
+const extApi = require('../common/extApi')
 const _ = require('lodash')
+const Query = require('./query')
 
-exports.handle = (event, ctx, cb) => {
+const handle = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
   let matchList = []
-  const { league, season } = event.pathParameters
+  console.log('event : ', event)
 
+  const { league, season } = event
+  const leagueMatch38 = ['premier-league', 'liga', 'ligue-1', 'serie-a']
+  const leagueMatch34 = ['bundesliga', 'eredivisie']
   let allRoundApi = []
+  const totalRound = leagueMatch38.includes(league) ? 38 : 34
 
-  for (let i = 1; i <= 38; i++) {
-    allRoundApi.push(getMatchesByRound(league, season, i))
+  for (let i = 1; i <= totalRound; i++) {
+    allRoundApi.push(extApi.getMatches(league, season, i))
   }
 
   Promise.all(allRoundApi)
     .then(resultArr => {
-      for (let i = 0; i < 38; i++) {
+      for (let i = 0; i < totalRound; i++) {
         if (_.isEmpty(resultArr[i].data.data.rounds[0].matches)) {
-          throw new Error(`no match data`)
+          return Promise.reject(`no match data`)
         }
         (resultArr[i].data.data.rounds[0].matches).forEach(item => {
           item.league = league
@@ -31,10 +36,10 @@ exports.handle = (event, ctx, cb) => {
       return commonUtil.connect()
     })
     .then(() => {
-      return Match.deleteMany({league: league, season: season})
+      return Query.deleteMatches(league, season)
     })
     .then(() => {
-      return Match.create(matchList)
+      return Query.createMatches(matchList)
     })
     .then(data => {
       console.log('Done! all match data inserted')
@@ -42,9 +47,11 @@ exports.handle = (event, ctx, cb) => {
     })
     .catch(err => {
       console.log('error! : ', err)
+      cb(null, commonUtil.createResponse(500, err))
     })
 }
 
-getMatchesByRound = (league, season, round) => {
-  return axios.get(`http://soccer.sportsopendata.net/v1/leagues/${league}/seasons/${season}/rounds/round-${round}`)
+module.exports = {
+  handle: handle,
+  handler: handle
 }

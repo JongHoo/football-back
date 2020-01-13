@@ -1,18 +1,20 @@
 const commonUtil = require('../common/commonUtil')
 const Standing = require('../models/Standing')
-const axios = require('axios')
+const extApi = require('../common/extApi')
 const _ = require('lodash')
+const Query = require('./query')
 
-exports.handle = (event, ctx, cb) => {
+const handle = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
   let standingListByApi = []
   let standingList = []
-  const { league, season } = event.pathParameters
+  console.log('event : ', event)
+  const { league, season } = event
 
-  axios.get(`http://soccer.sportsopendata.net/v1/leagues/${league}/seasons/${season}/standings`)
+  extApi.getStandings(league, season)
     .then((res) => {
       if (_.isEmpty(res.data.data.standings)) {
-        throw new Error('no standing info')
+        return Promise.reject('no standing info')
       }
       standingListByApi = res.data.data.standings
       return commonUtil.connect()
@@ -29,16 +31,22 @@ exports.handle = (event, ctx, cb) => {
         let standing = new Standing(tempStanding)
         standingList.push(standing)
       })
-      return Standing.deleteMany({league_id: league, season: season})
+      return Query.deleteStandings(league, season)
     })
     .then(() => {
-      return Standing.create(standingList)
+      return Query.createStandings(standingList)
     })
     .then(data => {
+      console.log('Success! Data : ', data)
       cb(null, commonUtil.createResponse(200, data))
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('error! : ', err)
-      cb(err)
+      cb(null, commonUtil.createResponse(500, err))
     })
+}
+
+module.exports = {
+  handle: handle,
+  handler: handle
 }

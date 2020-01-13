@@ -1,17 +1,19 @@
 const commonUtil = require('../common/commonUtil')
-const Team = require('../models/Team')
-const axios = require('axios')
+const Query = require('./query')
+const extApi = require('../common/extApi')
 const _ = require('lodash')
 
-exports.handle = (event, ctx, cb) => {
+const handle = (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
   let teamListByApi = [] //JSON.parse(event.body)
   let teamList = []
-  const { league, season } = event.pathParameters
-  axios.get(`http://soccer.sportsopendata.net/v1/leagues/${league}/seasons/${season}/teams`)
+  console.log('event : ', event)
+  const { league, season } = event
+
+  extApi.getTeams(league, season)
     .then((res) => {
       if (_.isEmpty(res.data.data.teams)) {
-        throw new Error('no teams')
+        return Promise.reject('no teams')
       }
       teamListByApi = res.data.data.teams
       return commonUtil.connect()
@@ -24,16 +26,22 @@ exports.handle = (event, ctx, cb) => {
         let team = new Team(item)
         teamList.push(team)
       })
-      return Team.deleteMany({league: league, season: season})
+      return Query.deleteTeams(league, season)
     })
     .then(() => {
-      return Team.create(teamList)
+      return Query.insertTeams(teamList)
     })
     .then(data => {
+      console.log('Success! Data : ', data)
       cb(null, commonUtil.createResponse(200, data))
     })
     .catch((err) => {
       console.log('error! : ', err)
-      cb(err)
+      cb(null, commonUtil.createResponse(500, err))
     })
+}
+
+module.exports = {
+  handle: handle,
+  handler: handle
 }
