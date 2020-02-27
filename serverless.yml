@@ -76,6 +76,14 @@ functions:
           path: standings/top/{season}
           method: get
 
+  # For Batch
+  send-top-standings:
+    handler: src/batches/sendStandings.handle
+    events:
+      - http:
+          path: batches/standings/
+          method: post
+
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
 #    - Effect: "Allow"
