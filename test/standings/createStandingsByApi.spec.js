@@ -57,7 +57,7 @@ describe('create standings by api Test', () => {
   })
 
   it('delete standings error', (done) => {
-    Query.deleteStandings = jest.fn().mockRejectedValue('DELETE ERROR')
+    Query.deleteStandings = jest.fn().mockRejectedValue(new Error('DELETE ERROR'))
 
     lambdaTester(subject)
       .with(event)
@@ -65,14 +65,14 @@ describe('create standings by api Test', () => {
         expect(error).toBeNull()
         expect(JSON.parse(result.statusCode)).toEqual(500)
         console.log(result)
-        expect(JSON.parse(result.body)).toEqual(`DELETE ERROR`)
+        expect(JSON.parse(result.body)).toEqual('DELETE ERROR')
         done()
       })
   })
 
   it('insert standings error', (done) => {
     Query.deleteStandings = jest.fn().mockResolvedValue()
-    Query.createStandings = jest.fn().mockRejectedValue('INSERT ERROR')
+    Query.createStandings = jest.fn().mockRejectedValue(new Error('INSERT ERROR'))
 
     lambdaTester(subject)
       .with(event)

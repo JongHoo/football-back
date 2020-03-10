@@ -30,7 +30,7 @@ describe('read teams Test', () => {
   })
 
   it('read teams error', (done) => {
-    Query.readTeams = jest.fn().mockRejectedValue('READ ERROR')
+    Query.readTeams = jest.fn().mockRejectedValue(new Error('READ ERROR'))
 
     lambdaTester(subject)
       .with(event)

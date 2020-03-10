@@ -25,7 +25,7 @@ const handle = (event, ctx, cb) => {
     })
     .catch((err) => {
       console.log('read standing error : ', err)
-      cb(null, commonUtil.createResponse(500, err))
+      cb(null, commonUtil.createResponse(500, err.message))
     })
 }
 

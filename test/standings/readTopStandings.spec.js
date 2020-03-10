@@ -30,7 +30,7 @@ describe('read top standings Test', () => {
   })
 
   it('read top standings error', (done) => {
-    Query.readTopStandings = jest.fn().mockRejectedValue('READ ERROR')
+    Query.readTopStandings = jest.fn().mockRejectedValue(new Error('READ ERROR'))
 
     lambdaTester(subject)
       .with(event)

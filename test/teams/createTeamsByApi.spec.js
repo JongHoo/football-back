@@ -38,16 +38,13 @@ describe('create teams by api Test', () => {
 
   it('get teams by api Error', (done) => {
     extApi.getTeams = jest.fn().mockResolvedValue({
-      data: {
-        data: {
-          teams: []
-        }
-      }
+      data: { data: { teams: [] } }
     })
 
     lambdaTester(subject)
       .with(event)
       .soThat((error, result) => {
+        console.log('result :::::: ', result)
         expect(error).toBeNull()
         expect(JSON.parse(result.statusCode)).toEqual(500)
         expect(JSON.parse(result.body)).toEqual('no teams')

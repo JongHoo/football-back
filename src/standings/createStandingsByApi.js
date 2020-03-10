@@ -1,49 +1,39 @@
 const commonUtil = require('../common/commonUtil')
 const Standing = require('../models/Standing')
 const extApi = require('../common/extApi')
-const _ = require('lodash')
+const { isEmpty } = require('lodash')
 const Query = require('./query')
 
-const handle = (event, ctx, cb) => {
+const handle = async (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
-  let standingListByApi = []
-  let standingList = []
+  const standingList = []
   console.log('event : ', event)
   const { league, season } = event
 
-  extApi.getStandings(league, season)
-    .then((res) => {
-      if (_.isEmpty(res.data.data.standings)) {
-        return Promise.reject('no standing info')
-      }
-      standingListByApi = res.data.data.standings
-      return commonUtil.connect()
-    })
-    .then(() => {
-      standingListByApi.forEach(item => {
-        let tempStanding = {
-          ...item,
-          ...item.overall
-        }
-        tempStanding.league_id = league
-        tempStanding.season = season
+  try {
+    const result = await extApi.getStandings(league, season)
+    if (isEmpty(result.data.data.standings)) throw new Error('no standing info')
+    const standingListByApi = result.data.data.standings
 
-        let standing = new Standing(tempStanding)
-        standingList.push(standing)
-      })
-      return Query.deleteStandings(league, season)
+    await commonUtil.connect()
+    standingListByApi.forEach(item => {
+      let tempStanding = {
+        ...item,
+        ...item.overall,
+        league_id: league,
+        season
+      }
+      let standing = new Standing(tempStanding)
+      standingList.push(standing)
     })
-    .then(() => {
-      return Query.createStandings(standingList)
-    })
-    .then(data => {
-      console.log('Success! Data : ', data)
-      cb(null, commonUtil.createResponse(200, data))
-    })
-    .catch(err => {
-      console.log('error! : ', err)
-      cb(null, commonUtil.createResponse(500, err))
-    })
+    await Query.deleteStandings(league, season)
+    const insertedStandings = await Query.createStandings(standingList)
+    console.log('Success! Data : ', insertedStandings)
+    cb(null, commonUtil.createResponse(200, insertedStandings))
+  } catch (err) {
+    console.log('error! : ', err)
+    cb(null, commonUtil.createResponse(500, err.message))
+  }
 }
 
 module.exports = {
