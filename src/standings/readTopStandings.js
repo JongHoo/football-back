@@ -1,20 +1,18 @@
 const commonUtil = require('../common/commonUtil')
 const Query = require('./query')
 
-const handle = (event, ctx, cb) => {
+const handle = async (event, ctx, cb) => {
   ctx.callbackWaitsForEmptyEventLoop = false
   const { season } = event.pathParameters
-  commonUtil.connect()
-    .then(() => {
-      return Query.readTopStandings(season)
-    })
-    .then((standingList) => {
-      cb(null, commonUtil.createResponse(200, standingList))
-    })
-    .catch((err) => {
-      console.log('read standing error : ', err)
-      cb(null, commonUtil.createResponse(500, err))
-    })
+
+  try {
+    await commonUtil.connect()
+    const standingList = await Query.readTopStandings(season)
+    cb(null, commonUtil.createResponse(200, standingList))
+  } catch (err) {
+    console.log('read standing error : ', err)
+    cb(null, commonUtil.createResponse(500, err.message))
+  }
 }
 
 module.exports = {

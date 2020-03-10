@@ -42,7 +42,7 @@ describe('create matches by api test', () => {
   })
 
   it('error when delete matches', (done) => {
-    Query.deleteMatches = jest.fn().mockRejectedValue('ERROR!')
+    Query.deleteMatches = jest.fn().mockRejectedValue(new Error('ERROR!'))
 
     lambdaTester(subject)
       .with(event)

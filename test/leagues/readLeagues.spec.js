@@ -30,7 +30,7 @@ describe('readLeagues Test', () => {
   })
 
   it('Error when read leagues', (done) => {
-    Query.readLeagues = jest.fn().mockRejectedValue('ERROR')
+    Query.readLeagues = jest.fn().mockRejectedValue(new Error('ERROR'))
 
     lambdaTester(subject)
       .with(event)
