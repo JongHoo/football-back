@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "mongoose": "^5.5.9",
     "querystring": "^0.2.0",
     "serverless-aws-alias": "^1.7.2"
