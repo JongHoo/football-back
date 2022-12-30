@@ -18,7 +18,7 @@
   "devDependencies": {
     "jest": "^24.8.0",
     "lambda-tester": "^3.6.0",
-    "serverless": "^1.47.0",
+    "serverless": "^1.83.3",
     "serverless-offline": "^5.5.0"
   }
 }
